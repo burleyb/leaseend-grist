@@ -19,6 +19,7 @@
     "@types/aws-lambda": "^8.10.136",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.14.0",
+    "chai-as-promised": "^8.0.1",
     "esbuild": "^0.20.2",
     "serverless-esbuild": "^1.52.1",
     "serverless-offline": "^14.4.0",
