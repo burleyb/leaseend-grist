@@ -1,0 +1,3 @@
+[submodule "lib/grist-api"]
+	path = lib/grist-api
+	url = ./lib/grist-api

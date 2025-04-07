@@ -1,0 +1,724 @@
+{
+  "info": {
+    "name": "Grist API",
+    "description": "A comprehensive collection for interacting with the Grist API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.getgrist.com",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "your-api-key-here",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_key}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Organizations",
+      "item": [
+        {
+          "name": "List Organizations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orgs",
+              "host": ["{{base_url}}"],
+              "path": ["orgs"]
+            },
+            "description": "List all organizations you have access to"
+          }
+        },
+        {
+          "name": "Get Organization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orgs/:orgId",
+              "host": ["{{base_url}}"],
+              "path": ["orgs", ":orgId"],
+              "variable": [
+                {
+                  "key": "orgId",
+                  "value": "",
+                  "description": "Organization ID or subdomain"
+                }
+              ]
+            },
+            "description": "Get details of a specific organization"
+          }
+        },
+        {
+          "name": "Modify Organization",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orgs/:orgId",
+              "host": ["{{base_url}}"],
+              "path": ["orgs", ":orgId"],
+              "variable": [
+                {
+                  "key": "orgId",
+                  "value": "",
+                  "description": "Organization ID or subdomain"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Org Name\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Modify organization details"
+          }
+        },
+        {
+          "name": "Delete Organization",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orgs/:orgId",
+              "host": ["{{base_url}}"],
+              "path": ["orgs", ":orgId"],
+              "variable": [
+                {
+                  "key": "orgId",
+                  "value": "",
+                  "description": "Organization ID or subdomain"
+                }
+              ]
+            },
+            "description": "Delete an organization"
+          }
+        },
+        {
+          "name": "Get Organization Access",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orgs/:orgId/access",
+              "host": ["{{base_url}}"],
+              "path": ["orgs", ":orgId", "access"],
+              "variable": [
+                {
+                  "key": "orgId",
+                  "value": "",
+                  "description": "Organization ID or subdomain"
+                }
+              ]
+            },
+            "description": "Get access settings for an organization"
+          }
+        },
+        {
+          "name": "Modify Organization Access",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orgs/:orgId/access",
+              "host": ["{{base_url}}"],
+              "path": ["orgs", ":orgId", "access"],
+              "variable": [
+                {
+                  "key": "orgId",
+                  "value": "",
+                  "description": "Organization ID or subdomain"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"delta\": {\n    \"users\": {\n      \"user@example.com\": \"editors\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Modify access settings for an organization"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workspaces",
+      "item": [
+        {
+          "name": "List Workspaces",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orgs/:orgId/workspaces",
+              "host": ["{{base_url}}"],
+              "path": ["orgs", ":orgId", "workspaces"],
+              "variable": [
+                {
+                  "key": "orgId",
+                  "value": "",
+                  "description": "Organization ID or subdomain"
+                }
+              ]
+            },
+            "description": "List all workspaces in an organization"
+          }
+        },
+        {
+          "name": "Create Workspace",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orgs/:orgId/workspaces",
+              "host": ["{{base_url}}"],
+              "path": ["orgs", ":orgId", "workspaces"],
+              "variable": [
+                {
+                  "key": "orgId",
+                  "value": "",
+                  "description": "Organization ID or subdomain"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Workspace\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Create a new workspace"
+          }
+        },
+        {
+          "name": "Get Workspace",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workspaces/:workspaceId",
+              "host": ["{{base_url}}"],
+              "path": ["workspaces", ":workspaceId"],
+              "variable": [
+                {
+                  "key": "workspaceId",
+                  "value": "",
+                  "description": "Workspace ID"
+                }
+              ]
+            },
+            "description": "Get details of a specific workspace"
+          }
+        },
+        {
+          "name": "Modify Workspace",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workspaces/:workspaceId",
+              "host": ["{{base_url}}"],
+              "path": ["workspaces", ":workspaceId"],
+              "variable": [
+                {
+                  "key": "workspaceId",
+                  "value": "",
+                  "description": "Workspace ID"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Workspace Name\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Modify workspace details"
+          }
+        },
+        {
+          "name": "Delete Workspace",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workspaces/:workspaceId",
+              "host": ["{{base_url}}"],
+              "path": ["workspaces", ":workspaceId"],
+              "variable": [
+                {
+                  "key": "workspaceId",
+                  "value": "",
+                  "description": "Workspace ID"
+                }
+              ]
+            },
+            "description": "Delete a workspace"
+          }
+        },
+        {
+          "name": "Get Workspace Access",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workspaces/:workspaceId/access",
+              "host": ["{{base_url}}"],
+              "path": ["workspaces", ":workspaceId", "access"],
+              "variable": [
+                {
+                  "key": "workspaceId",
+                  "value": "",
+                  "description": "Workspace ID"
+                }
+              ]
+            },
+            "description": "Get access settings for a workspace"
+          }
+        },
+        {
+          "name": "Modify Workspace Access",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workspaces/:workspaceId/access",
+              "host": ["{{base_url}}"],
+              "path": ["workspaces", ":workspaceId", "access"],
+              "variable": [
+                {
+                  "key": "workspaceId",
+                  "value": "",
+                  "description": "Workspace ID"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"delta\": {\n    \"maxInheritedRole\": \"viewers\",\n    \"users\": {\n      \"user@example.com\": \"editors\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Modify access settings for a workspace"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "Create Document",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workspaces/:workspaceId/docs",
+              "host": ["{{base_url}}"],
+              "path": ["workspaces", ":workspaceId", "docs"],
+              "variable": [
+                {
+                  "key": "workspaceId",
+                  "value": "",
+                  "description": "Workspace ID"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Document\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Create a new document in a workspace"
+          }
+        },
+        {
+          "name": "Get Document",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "description": "Get document details"
+          }
+        },
+        {
+          "name": "Modify Document",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Document Name\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Modify document details"
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "description": "Delete a document"
+          }
+        },
+        {
+          "name": "Move Document",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/move",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "move"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workspace\": 123\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Move document to another workspace"
+          }
+        },
+        {
+          "name": "Get Document Access",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/access",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "access"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "description": "Get access settings for a document"
+          }
+        },
+        {
+          "name": "Modify Document Access",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/access",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "access"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"delta\": {\n    \"maxInheritedRole\": \"viewers\",\n    \"users\": {\n      \"user@example.com\": \"editors\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Modify access settings for a document"
+          }
+        },
+        {
+          "name": "Download Document",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/download",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "download"],
+              "query": [
+                {
+                  "key": "nohistory",
+                  "value": "true",
+                  "description": "Remove document history",
+                  "disabled": true
+                },
+                {
+                  "key": "template",
+                  "value": "true",
+                  "description": "Download as template",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "description": "Download document content"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tables",
+      "item": [
+        {
+          "name": "Fetch Table Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/tables/:tableName/data",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "tables", ":tableName", "data"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "",
+                  "description": "JSON filter specification",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                },
+                {
+                  "key": "tableName",
+                  "value": "",
+                  "description": "Table name"
+                }
+              ]
+            },
+            "description": "Fetch data from a table"
+          }
+        },
+        {
+          "name": "Add Records",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/tables/:tableName/data",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "tables", ":tableName", "data"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                },
+                {
+                  "key": "tableName",
+                  "value": "",
+                  "description": "Table name"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": [1, 2],\n  \"column1\": [\"value1\", \"value2\"],\n  \"column2\": [123, 456]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Add new records to a table"
+          }
+        },
+        {
+          "name": "Update Records",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/tables/:tableName/data",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "tables", ":tableName", "data"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                },
+                {
+                  "key": "tableName",
+                  "value": "",
+                  "description": "Table name"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": [1, 2],\n  \"column1\": [\"updated1\", \"updated2\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Update existing records in a table"
+          }
+        },
+        {
+          "name": "Delete Records",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/apply",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "apply"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  [\"BulkRemoveRecord\", \"TableName\", [1, 2, 3]]\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Delete records from a table"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attachments",
+      "item": [
+        {
+          "name": "Upload Attachment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/docs/:docId/attach",
+              "host": ["{{base_url}}"],
+              "path": ["docs", ":docId", "attach"],
+              "variable": [
+                {
+                  "key": "docId",
+                  "value": "",
+                  "description": "Document ID"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "upload",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "description": "Upload file attachments to a document"
+          }
+        }
+      ]
+    }
+  ]
+} 

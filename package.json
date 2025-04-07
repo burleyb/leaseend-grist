@@ -1,0 +1,27 @@
+{
+  "name": "leaseend-grist",
+  "version": "1.0.0",
+  "description": "Financial reporting system using Grist",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "serverless offline",
+    "deploy": "serverless deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "fs-extra": "^11.3.0",
+    "grist-api": "file:./lib/grist-api",
+    "leo-logger": "^1.0.7",
+    "serverless": "^4.11.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.136",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.14.0",
+    "esbuild": "^0.20.2",
+    "serverless-esbuild": "^1.52.1",
+    "serverless-offline": "^14.4.0",
+    "typescript": "^5.4.2"
+  }
+}

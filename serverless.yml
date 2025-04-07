@@ -1,0 +1,50 @@
+service: leaseend-grist
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  environment:
+    GRIST_URL: "http://localhost:8484/api"
+    GRIST_API_KEY: ${file(.grist-api-key)}
+    DATABRICKS_API_KEY: ${file(.databricks-api-key)}
+
+functions:
+  setup-grist:
+    handler: api/setup-grist.handler
+    events:
+      - httpApi:
+          path: /setup-grist
+          method: POST
+  create-income-statement:
+    handler: api/create-income-statement.handler
+    events:
+      - httpApi:
+          path: /create-income-statement
+          method: POST
+  create-balance-sheet:
+    handler: api/create-balance-sheet.handler
+    events:
+      - httpApi:
+          path: /create-balance-sheet
+          method: POST
+  create-cash-flow-statement:
+    handler: api/create-cash-flow-statement.handler
+    events:
+      - httpApi:
+          path: /create-cash-flow-statement
+          method: POST
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude: ['aws-sdk']
+    target: 'node20'
+    platform: 'node'
+    concurrency: 10
