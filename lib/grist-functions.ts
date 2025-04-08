@@ -13,6 +13,8 @@ export const INCOME_STATEMENT_DOC_NAME = "Income Statement";
 export const BALANCE_SHEET_DOC_NAME = "Balance Sheet";
 export const CASH_FLOW_DOC_NAME = "Cash Flow";
 export const INCOME_STATEMENT_TABLE_NAME = "Income_Statement";
+export const BALANCE_SHEET_TABLE_NAME = "Balance_Sheet";
+export const TRANSACTION_DETAILS_TABLE_NAME = "Transaction_Details";
 
 // Types
 interface IFinancialWorkspaces {
@@ -129,7 +131,7 @@ export const getOrCreateDocument = async (
     }
 };
 
-// Create the income statement table schema
+// Update the income statement table schema
 export const createIncomeStatementTable = async (
   api: GristDocAPI,
   doc: IDoc
@@ -141,19 +143,33 @@ export const createIncomeStatementTable = async (
         if(!table) {
             const tableId = await api.createTable({
             docId: doc.id,
-            schema: {
-                tables: [{
-                id: INCOME_STATEMENT_TABLE_NAME,
-                columns: [
-                    { id: "date", fields: { label: "Date" } },
-                    { id: "revenue", fields: { label: "Revenue" } },
-                    { id: "costOfGoodsSold", fields: { label: "Cost of Goods Sold" } },
-                    { id: "grossProfit", fields: { label: "Gross Profit" } },
-                    { id: "operatingExpenses", fields: { label: "Operating Expenses" } },
-                    { id: "netIncome", fields: { label: "Net Income" } }
-                ]
-                }]
-            }
+            schema:  {
+                    "tables": [{
+                    "id": INCOME_STATEMENT_TABLE_NAME,
+                    "columns": [
+                        { "id": "transaction_id", "fields": { "label": "Transaction ID", "type": "Int" } },
+                        { "id": "transaction_line_id", "fields": { "label": "Transaction Line ID", "type": "Int" } },
+                        { "id": "_fivetran_synced_date", "fields": { "label": "Fivetran Synced Date", "type": "Date" } },
+                        { "id": "accounting_book_id", "fields": { "label": "Accounting Book ID", "type": "Int" } },
+                        { "id": "accounting_book_name", "fields": { "label": "Accounting Book Name", "type": "Text" } },
+                        { "id": "accounting_period_id", "fields": { "label": "Accounting Period ID", "type": "Int" } },
+                        { "id": "accounting_period_ending", "fields": { "label": "Accounting Period Ending", "type": "Date" } },
+                        { "id": "accounting_period_name", "fields": { "label": "Accounting Period Name", "type": "Text" } },
+                        { "id": "is_accounting_period_adjustment", "fields": { "label": "Is Accounting Period Adjustment", "type": "Bool" } },
+                        { "id": "is_accounting_period_closed", "fields": { "label": "Is Accounting Period Closed", "type": "Bool" } },
+                        { "id": "account_name", "fields": { "label": "Account Name", "type": "Text" } },
+                        { "id": "account_display_name", "fields": { "label": "Account Display Name", "type": "Text" } },
+                        { "id": "account_type_name", "fields": { "label": "Account Type Name", "type": "Text" } },
+                        { "id": "account_type_id", "fields": { "label": "Account Type ID", "type": "Text" } },
+                        { "id": "account_id", "fields": { "label": "Account ID", "type": "Int" } },
+                        { "id": "account_number", "fields": { "label": "Account Number", "type": "Text" } },
+                        { "id": "subsidiary_id", "fields": { "label": "Subsidiary ID", "type": "Int" } },
+                        { "id": "subsidiary_full_name", "fields": { "label": "Subsidiary Full Name", "type": "Text" } },
+                        { "id": "subsidiary_name", "fields": { "label": "Subsidiary Name", "type": "Text" } },
+                        { "id": "subsidiary_currency_symbol", "fields": { "label": "Subsidiary Currency Symbol", "type": "Text" } }
+                    ]
+                    }]
+                }
             });
             logger.info("[Created table]", tableId);
             table = await api.getTableByName({ name: INCOME_STATEMENT_TABLE_NAME, docId: doc.id });
@@ -170,38 +186,112 @@ export const createIncomeStatementTable = async (
     }
 };
 
-// Add sample data to the income statement
-export const addSampleIncomeData = async (
+// Create the balance sheet table schema
+export const createBalanceSheetTable = async (
   api: GristDocAPI,
-  tableName: string,
   doc: IDoc
-): Promise<void> => {
+): Promise<ITable> => {
     try {
-        const sampleData: IRecord[] = [
-            {
-                date: '2024-01-01',
-                revenue: 1000,
-                costOfGoodsSold: 500,
-                grossProfit: 500,
-                operatingExpenses: 200,
-                netIncome: 300
-            },
-            {
-                date: '2024-01-02',
-            revenue: 1000,
-            costOfGoodsSold: 500,
-            grossProfit: 500,
-            operatingExpenses: 200,
-                netIncome: 300
-            }
-        ];
+        let table = await api.getTableByName({ name: BALANCE_SHEET_TABLE_NAME, docId: doc.id });
+        logger.info("[Found balanceSheetTable]", table);
+  
+        if(!table) {
+            const tableId = await api.createTable({
+                "docId": doc.id,
+                "schema": {
+                    "tables": [{
+                    "id": BALANCE_SHEET_TABLE_NAME,
+                    "columns": [
+                        { "id": "transaction_id", "fields": { "label": "Transaction ID", "type": "Int" } },
+                        { "id": "transaction_line_id", "fields": { "label": "Transaction Line ID", "type": "Int" } },
+                        { "id": "subsidiary_id", "fields": { "label": "Subsidiary ID", "type": "Int" } },
+                        { "id": "_fivetran_synced_date", "fields": { "label": "Fivetran Synced Date", "type": "Date" } },
+                        { "id": "subsidiary_full_name", "fields": { "label": "Subsidiary Full Name", "type": "Text" } },
+                        { "id": "subsidiary_name", "fields": { "label": "Subsidiary Name", "type": "Text" } },
+                        { "id": "subsidiary_currency_symbol", "fields": { "label": "Subsidiary Currency Symbol", "type": "Text" } },
+                        { "id": "accounting_book_id", "fields": { "label": "Accounting Book ID", "type": "Int" } },
+                        { "id": "accounting_book_name", "fields": { "label": "Accounting Book Name", "type": "Text" } },
+                        { "id": "accounting_period_id", "fields": { "label": "Accounting Period ID", "type": "Int" } },
+                        { "id": "accounting_period_ending", "fields": { "label": "Accounting Period Ending", "type": "Date" } },
+                        { "id": "accounting_period_name", "fields": { "label": "Accounting Period Name", "type": "Text" } },
+                        { "id": "is_accounting_period_adjustment", "fields": { "label": "Is Accounting Period Adjustment", "type": "Bool" } },
+                        { "id": "is_accounting_period_closed", "fields": { "label": "Is Accounting Period Closed", "type": "Bool" } },
+                        { "id": "account_category", "fields": { "label": "Account Category", "type": "Text" } },
+                        { "id": "account_name", "fields": { "label": "Account Name", "type": "Text" } },
+                        { "id": "account_display_name", "fields": { "label": "Account Display Name", "type": "Text" } },
+                        { "id": "account_type_name", "fields": { "label": "Account Type Name", "type": "Text" } },
+                        { "id": "account_type_id", "fields": { "label": "Account Type ID", "type": "Text" } },
+                        { "id": "account_id", "fields": { "label": "Account ID", "type": "Int" } }
+                    ]
+                    }]
+                }
+                });
+            logger.info("[Created balance sheet table]", tableId);
+            table = await api.getTableByName({ name: BALANCE_SHEET_TABLE_NAME, docId: doc.id });
+        }
 
-        await api.addRecords({
-            tableName,
-            records: sampleData
-        });
+        if(!table) {
+            throw new Error("Table not found - looking for " + BALANCE_SHEET_TABLE_NAME);
+        }
+  
+        return table;
     } catch (error) {
-        logger.error("[Error adding sample data]", error);
+        logger.error("[Error creating balance sheet table]", error);
         throw error;
     }
-}; 
+};
+
+// Create the transaction details table schema
+export const createTransactionDetailsTable = async (
+  api: GristDocAPI,
+  doc: IDoc
+): Promise<ITable> => {
+    try {
+        let table = await api.getTableByName({ name: TRANSACTION_DETAILS_TABLE_NAME, docId: doc.id });
+        logger.info("[Found transactionDetailsTable]", table);
+  
+        if(!table) {
+            const tableId = await api.createTable({
+                "docId": doc.id,
+                "schema": {
+                    "tables": [{
+                    "id": TRANSACTION_DETAILS_TABLE_NAME,
+                    "columns": [
+                        { "id": "accounting_book_id", "fields": { "label": "Accounting Book ID", "type": "Int" } },
+                        { "id": "accounting_book_name", "fields": { "label": "Accounting Book Name", "type": "Text" } },
+                        { "id": "transaction_line_id", "fields": { "label": "Transaction Line ID", "type": "Int" } },
+                        { "id": "transaction_memo", "fields": { "label": "Transaction Memo", "type": "Text" } },
+                        { "id": "is_transaction_non_posting", "fields": { "label": "Is Transaction Non Posting", "type": "Bool" } },
+                        { "id": "transaction_id", "fields": { "label": "Transaction ID", "type": "Int" } },
+                        { "id": "transaction_status", "fields": { "label": "Transaction Status", "type": "Text" } },
+                        { "id": "transaction_date", "fields": { "label": "Transaction Date", "type": "DateTime" } }, 
+                        { "id": "transaction_due_date", "fields": { "label": "Transaction Due Date", "type": "DateTime" } }, 
+                        { "id": "transaction_type", "fields": { "label": "Transaction Type", "type": "Text" } },
+                        { "id": "is_transaction_intercompany_adjustment", "fields": { "label": "Is Transaction Intercompany Adjustment", "type": "Bool" } },
+                        { "id": "accounting_period_ending", "fields": { "label": "Accounting Period Ending", "type": "DateTime" } }, 
+                        { "id": "accounting_period_name", "fields": { "label": "Accounting Period Name", "type": "Text" } },
+                        { "id": "accounting_period_id", "fields": { "label": "Accounting Period ID", "type": "Int" } },
+                        { "id": "is_accounting_period_adjustment", "fields": { "label": "Is Accounting Period Adjustment", "type": "Bool" } },
+                        { "id": "is_accounting_period_closed", "fields": { "label": "Is Accounting Period Closed", "type": "Bool" } },
+                        { "id": "account_name", "fields": { "label": "Account Name", "type": "Text" } },
+                        { "id": "account_type_name", "fields": { "label": "Account Type Name", "type": "Text" } },
+                        { "id": "account_type_id", "fields": { "label": "Account Type ID", "type": "Text" } },
+                        { "id": "account_id", "fields": { "label": "Account ID", "type": "Int" } }
+                    ]
+                    }]
+                }
+                });
+            logger.info("[Created transaction details table]", tableId);
+            table = await api.getTableByName({ name: TRANSACTION_DETAILS_TABLE_NAME, docId: doc.id });
+        }
+
+        if(!table) {
+            throw new Error("Table not found - looking for " + TRANSACTION_DETAILS_TABLE_NAME);
+        }
+  
+        return table;
+    } catch (error) {
+        logger.error("[Error creating transaction details table]", error);
+        throw error;
+    }
+};
