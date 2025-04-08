@@ -8,7 +8,8 @@ provider:
     GRIST_URL: "http://localhost:8484/api"
     GRIST_API_KEY: ${file(.grist-api-key)}
     DATABRICKS_API_KEY: ${file(.databricks-api-key)}
-
+    DATABRICKS_SERVER_HOSTNAME: "https://dbc-456d715c-6cb0.cloud.databricks.com"
+    DATABRICKS_HTTP_PATH: "/sql/1.0/warehouses/3bdbcae0f85f2f83"
 functions:
   setup-grist:
     handler: api/setup-grist.handler
