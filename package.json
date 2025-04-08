@@ -10,10 +10,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@databricks/sql": "^1.10.0",
+    "dotenv": "^16.4.7",
     "fs-extra": "^11.3.0",
     "grist-api": "file:./lib/grist-api",
     "leo-logger": "^1.0.7",
-    "serverless": "^4.11.0"
+    "serverless": "^4.11.0",
+    "serverless-dotenv": "^1.0.0-beta.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.136",

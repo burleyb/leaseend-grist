@@ -3,6 +3,7 @@ import * as logger from 'leo-logger';
 
 // Constants
 export const GRIST_URL = process.env.GRIST_URL || "http://localhost:8484/api";
+export const GRIST_API_KEY = process.env.GRIST_API_KEY;
 export const LEASE_END_ORG_NAME = process.env.LEASE_END_ORG_NAME || "Lease End - Finance";
 export const INCOME_STATEMENT_WORKSPACE_NAME = process.env.INCOME_STATEMENT_WORKSPACE_NAME || "Income Statement";
 export const BALANCE_SHEET_WORKSPACE_NAME = process.env.BALANCE_SHEET_WORKSPACE_NAME || "Balance Sheet";
@@ -34,7 +35,7 @@ interface IIncomeStatementRecord {
 
 // Initialize the Grist API client
 export const initializeGristAPI = (): GristDocAPI => {
-  return new GristDocAPI({ server: GRIST_URL });
+  return new GristDocAPI({ server: GRIST_URL, apiKey: GRIST_API_KEY });
 };
 
 // Get or create the LeaseEnd organization
