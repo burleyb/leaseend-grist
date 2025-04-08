@@ -22,3 +22,7 @@ node_modules
 dist
 
 .*-api-key
+
+
+.build
+.esbuild
